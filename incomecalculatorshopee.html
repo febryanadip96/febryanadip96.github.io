@@ -115,7 +115,7 @@
             var kolomNamaVarianDiPesanan = 14;
             var kolomJumlahBarangDiPesanan = 17;
 
-            var barisAwalPriceDiPricelist = 3;
+            var barisAwalPriceDiPricelist = 2;
             var kolomNamaBarangDiPricelist = 2;
             var kolomHargaModalDiPricelist = 11;
 
@@ -189,6 +189,8 @@
             }
 
             function mainProcess(){
+
+                table.clear().draw();
 
                 stringPricelist = stringPricelist.toLowerCase().replace(new RegExp(exclude_in_pricelist.join('|'), 'g'), '')
 
