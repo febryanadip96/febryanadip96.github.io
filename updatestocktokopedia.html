@@ -217,7 +217,11 @@
                                     data_array_stok_excel[kolom_stok] = default_stok;
                                 }
                             }
-                            data_array_stok_excel[kolom_status] = status_aktif;
+
+                            if(data_array_stok_excel[kolom_stok] > 0){
+                                data_array_stok_excel[kolom_status] = status_aktif;
+                            }
+                            
                             array_stok_excel[j] = data_array_stok_excel.join();
                             break;
                         }
