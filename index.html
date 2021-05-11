@@ -16,252 +16,42 @@
         integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl'
         crossorigin='anonymous'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js'></script>
+    <style>
+        html, body, .container, .row {
+            height: 100vh;
+        }
+    </style>
 </head>
 
-<body style='padding-top: 20px;'>
+<body>
     <div class='container'>
-        <h2 class='text-center'>📦 JH Stockist Shopee 📦</h2>
-        <br/>
-        <div class='row'>
-            <div class='col-sm-12'>
-                <form id='form-update-stock'>
-                    <div class='row'>
-                        <div class='form-group col-sm-6'>
-                            <button id='paste-clipboard' class='btn btn-sm btn-outline-primary float-right'>Paste from Clipboard</button>
-                            <label>Update Stock</label>
-                            <textarea class='form-control' id='update-stock' name='update-stock' rows='10'
-                                cols='50'></textarea>
-                        </div>
-
-                        <div class='form-group col-sm-6'>
-                            <button id='copy-text-gagal' data-clipboard-target='#gagal'
-                            class='btn btn-sm btn-outline-primary float-right'>Copy Text</button>
-                            <label>Update Stock Gagal</label>
-                            <textarea class='form-control' id='gagal' name='gagal' rows='10' cols='50' readonly></textarea>
-                        </div>
-                    </div>
-
-                    <div class='form-check'>
-                        <input type='checkbox' class='form-check-input' id='update-only' name='update-only'/>
-                        <label class='form-check-label' for='update-only'>Update Only</label>
-                    </div>
-
-                    <br/>
-
-                    <div class='form-group'>
-                        <label>Excel Stock Shopee (format csv)</label>
-                        <input type='file' class='form-control' id='stock-excel' name='stock-excel' />
-                    </div>
-
-                    <div class='form-group'>
-                        <label>Exclude Kata-Kata</label>
-                        <textarea class='form-control' id='exclude-kata' name='exclude-kata' rows='5'
-                            cols='50'>JAM&#13;&#10;KODE&#13;&#10;H-&#13;&#10;- &#13;&#10;01 A &#13;&#10;01 B &#13;&#10;01 C &#13;&#10;02 A &#13;&#10;02 B &#13;&#10;02 C &#13;&#10;02 D </textarea>
-                    </div>
-
-                    <div class='form-group'>
-                        <label>Default Stock</label>
-                        <input type='number' class='form-control' id='default-stok' name='default-stok'
-                            value='2'></input>
-                    </div>
-
-                    <div class='form-group'>
-                        <label>Maximum Stock</label>
-                        <input type='number' class='form-control' id='maximum-stok' name='maximum-stok' value='20'></input>
-                    </div>
-                    <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>Proses</button>
-                </form>
+        <div class="row align-items-center">
+            <div class="col-sm-12 text-center">
+                <h2>Welcome To <span id="webname"></span></h2><br>
+                <button id="btn-stockist-shopee" class="btn btn-light btn-lg mb-2">Stockist Shopee</button><br>
+                <button id="btn-stockist-tokopedia" class="btn btn-light btn-lg mb-2">Stockist Tokopedia</button><br>
+                <button id="btn-income-calculator-shopee" class="btn btn-light btn-lg">Income Calculator Shopee</button>
             </div>
         </div>
-        <br />
-        <br />
-        <div class='row'>
-            <div class='col-sm-12'>
-                <button id='download-file-csv' class='btn btn-sm btn-outline-primary float-right' disabled>Download
-                    CSV</button>
-                <h4>Hasil Updated Excel Stock Shopee (format csv)</h4>
-
-                <div class='form-group'>
-                    <textarea class='form-control' id='hasil' name='hasil' rows='10' cols='50' readonly></textarea>
-                </div>
-            </div>
-        </div>
-        <div class='row'>
-            <div class='col-sm-12'>
-                <h4>Stok Kosong</h4>
-                <div class='form-group'>
-                    <textarea class='form-control' id='stok-kosong' name='stok-kosong' rows='10' cols='50' readonly></textarea>
-                </div>
-            </div>
-        </div>
-        <footer>
-            <p style='color:#007BFF; text-align: end;'>Created by The Febryan Adi Prayitno @2020 😀</p>
-        </footer>
     </div>
 
     <script>
-        $(function () {
+        $(function(){
+            var webname = window.location.hostname;
+            $('#webname').html(webname);
 
-            $('#form-update-stock').submit(function (e) {
-                e.preventDefault();
+            var origin = window.location.origin;
+
+            $(document).on('click', '#btn-stockist-shopee', function(){
+                window.location.href = origin+"/update-stock-shopee.html";
             });
 
-            var ranges = [
-                '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
-                '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
-                '\ud83d[\ude80-\udeff]',  // U+1F680 to U+1F6FF
-                '[^\x00-\x7F]', // non-ascii
-                '[{()}]' //close parenthesis
-            ];
-
-            var filename = '';
-
-            $('#submit-input').on('click', function(){
-                var file = $('#stock-excel').prop('files')[0];
-                if (typeof file == 'undefined') {
-                    alert('Harap masukkan CSV stok');
-                    return;
-                }
-                filename = file.name;
-
-                var fileReader = new FileReader();
-                fileReader.onload = function () {
-                    UpdateStok(fileReader.result);  // data <-- in this var you have the file data in Base64 format
-                };
-                fileReader.readAsText(file);
+            $(document).on('click', '#btn-stockist-tokopedia', function(){
+                window.location.href = origin+"/update-stock-tokopedia.html";
             });
 
-            function UpdateStok(data) {
-                var excel_header = '';
-                var stok_excel_string = '';
-                stok_excel_string = data.trim();  // data <-- in this var you have the file data in Base64 format
-                var new_array_stok_excel_string = stok_excel_string.split('\n');
-                for (var b = 0; b < 3; b++) {
-                    excel_header += new_array_stok_excel_string[0] + '\n';
-                    new_array_stok_excel_string.shift();//remove first item in array
-                }
-                stok_excel_string = new_array_stok_excel_string.join('\n');
-                var update_stok_string = $('textarea#update-stock').val().replace(new RegExp(ranges.join('|'), 'g'), '').replace(/^\s*[\r\n]/gm, '');
-
-                if (update_stok_string == '') {
-                    alert('Harap masukkan data update stok terbaru');
-                    return;
-                }
-
-                var exclude_kata = $('#exclude-kata').val().trim().replace(/^\s*[\r\n]/gm, '');//remove blank lines
-                var array_exclude_kata = [];
-                if (exclude_kata != '') {
-                    array_exclude_kata = exclude_kata.split('\n');
-                    for (var a = 0; a < array_exclude_kata.length; a++) {
-                        update_stok_string = update_stok_string.replace(new RegExp(array_exclude_kata[a], 'g'), '');
-                    }
-                }
-
-                var kolom_stok = 7;
-                var default_stok = parseInt($('input#default-stok').val()? $('input#default-stok').val() : 0);
-                var maximum_stok = parseInt($('input#maximum-stok').val()?$('input#maximum-stok').val() : 0);
-
-                //array update stok
-                var array_update_stok = update_stok_string.split('\n');
-
-                //array stok excel
-                var array_stok_excel = stok_excel_string.split('\n');
-
-                //set all stock 0
-                var update_only = $('#update-only').is(':checked');
-
-                if(!update_only){
-                    for (var k = 0; k < array_stok_excel.length; k++) {
-                        var data_array_stok_excel = array_stok_excel[k].split(',');
-                        data_array_stok_excel[kolom_stok] = 0;
-                        array_stok_excel[k] = data_array_stok_excel.join();
-                    }
-                }
-
-                var hasil = '';
-                var gagal = '';
-                var stok_kosong = '';
-
-                for (var i = 0; i < array_update_stok.length; i++) {
-                    var array_data_update_stok = array_update_stok[i].trim().toLowerCase().split(' ');//MARSHA MINI BAG BLACK => MARSHA,MINI,BAG,BLACK
-                    gagal += array_update_stok[i] + '\n';
-                    for (var j = 0; j < array_stok_excel.length; j++) {
-                        var ada = true;
-                        var string_satu_data_stok_excel = array_stok_excel[j].replace(/,/g, ' ').toLowerCase();//delete ',' in array 2385557693,,MARSHA MINI BAG TAS DOMPET KECIL CANTIK MEWAH LUCU SIMPEL JIMS HONEY ORI,4869951577,,Red,175000.0,0,,
-                        for (var h = 0; h < array_data_update_stok.length; h++) {
-                            if (h == array_data_update_stok.length - 1 && !isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
-                                break;
-                            }
-                            if (string_satu_data_stok_excel.match(new RegExp('\\b'+array_data_update_stok[h].trim()+'\\b', 'g'))==null) {//Find a match at the beginning/end of a word
-                                ada = false;
-                            }
-                        }
-                        if (ada == true) {
-                            gagal = gagal.replace(array_update_stok[i] + '\n', '');//delete update stok from failed array
-                            var data_array_stok_excel = array_stok_excel[j].split(',');
-                            if (!isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
-                                if(maximum_stok && parseInt(array_data_update_stok[array_data_update_stok.length - 1]) >= maximum_stok){
-                                    data_array_stok_excel[kolom_stok] = maximum_stok;
-                                }else{
-                                    data_array_stok_excel[kolom_stok] = array_data_update_stok[array_data_update_stok.length - 1];
-                                }
-                            } else {
-                                if(maximum_stok && default_stok >= maximum_stok){
-                                    data_array_stok_excel[kolom_stok] = maximum_stok;
-                                }else{
-                                    data_array_stok_excel[kolom_stok] = default_stok;
-                                }
-                            }
-                            array_stok_excel[j] = data_array_stok_excel.join();
-                            break;
-                        }
-                    }
-                }
-
-                hasil += excel_header;
-                for (var l = 0; l < array_stok_excel.length; l++) {
-                    hasil += array_stok_excel[l] + '\n';
-                    var data_stok_excel = array_stok_excel[l].split(',');
-                    if(parseInt(data_stok_excel[kolom_stok]) == 0){
-                        stok_kosong += data_stok_excel[1] + ' - '+data_stok_excel[3] + '\n';
-                    }
-                }
-
-                $('#hasil').val(hasil);
-                $('#gagal').val(gagal.replace(/^\s*[\r\n]/gm, ''));
-                $('#stok-kosong').val(stok_kosong.replace(/^\s*[\r\n]/gm, ''));
-
-                $('#download-file-csv').removeAttr('disabled');
-            }
-
-            $('#paste-clipboard').on('click', async function(){
-                var text = await navigator.clipboard.readText();
-                $('#update-stock').val(text);
-            });
-
-            $('#download-file-csv').on('click', function () {
-                if (filename == '') {
-                    alert('Tidak dapat melakukan download CSV update stok');
-                    return;
-                }
-                var text = $('#hasil').val();
-                var element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                element.setAttribute('download', filename);
-
-                element.style.display = 'none';
-                document.body.appendChild(element);
-
-                element.click();
-
-                document.body.removeChild(element);
-            });
-
-
-            var copy_text_gagal = new ClipboardJS('#copy-text-gagal');
-            copy_text_gagal.on('success', function (e) {
-                $('#copy-text-gagal').text('Copied!');
-                e.clearSelection();
+            $(document).on('click', '#btn-income-calculator-shopee', function(){
+                window.location.href = origin+"/income-calculator-shopee.html";
             });
         });
     </script>
