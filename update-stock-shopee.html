@@ -132,11 +132,13 @@
             });
 
             function UpdateStok(data) {
+                var header_row = 4;
+
                 var excel_header = '';
                 var stok_excel_string = '';
                 stok_excel_string = data.trim();  // data <-- in this var you have the file data in Base64 format
                 var new_array_stok_excel_string = stok_excel_string.split('\n');
-                for (var b = 0; b < 3; b++) {
+                for (var b = 0; b < header_row; b++) {
                     excel_header += new_array_stok_excel_string[0] + '\n';
                     new_array_stok_excel_string.shift();//remove first item in array
                 }
@@ -173,6 +175,8 @@
                 if(!update_only){
                     for (var k = 0; k < array_stok_excel.length; k++) {
                         var data_array_stok_excel = array_stok_excel[k].split(',');
+                        var string_array_stok_excel = data_array_stok_excel.join("").trim();
+                        if(string_array_stok_excel.length == 0) break;
                         data_array_stok_excel[kolom_stok] = 0;
                         array_stok_excel[k] = data_array_stok_excel.join();
                     }
@@ -183,11 +187,16 @@
                 var stok_kosong = '';
 
                 for (var i = 0; i < array_update_stok.length; i++) {
-                    var array_data_update_stok = array_update_stok[i].trim().toLowerCase().split(' ');//MARSHA MINI BAG BLACK => MARSHA,MINI,BAG,BLACK
+                    var string_array_update_stok =  array_update_stok[i].trim().toLowerCase();
+                    if(string_array_update_stok.length == 0) break;
+                    var array_data_update_stok = string_array_update_stok.split(' ');//MARSHA MINI BAG BLACK => MARSHA,MINI,BAG,BLACK
                     gagal += array_update_stok[i] + '\n';
                     for (var j = 0; j < array_stok_excel.length; j++) {
                         var ada = true;
                         var string_satu_data_stok_excel = array_stok_excel[j].replace(/,/g, ' ').toLowerCase();//delete ',' in array 2385557693,,MARSHA MINI BAG TAS DOMPET KECIL CANTIK MEWAH LUCU SIMPEL JIMS HONEY ORI,4869951577,,Red,175000.0,0,,
+                        if(string_satu_data_stok_excel.length == 0){
+                            break;
+                        }
                         for (var h = 0; h < array_data_update_stok.length; h++) {
                             if (h == array_data_update_stok.length - 1 && !isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
                                 break;
