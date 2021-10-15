@@ -53,6 +53,17 @@
                         <input type='file' class='form-control' id='stock-excel' name='stock-excel' />
                     </div>
 
+                    <div class='form-check'>
+                        <input type='checkbox' class='form-check-input' id='check-replace-text' name='check-replace-text'/>
+                        <label class='form-check-label' for='check-replace-text'>Replace Text Update Stock</label>
+                    </div>
+
+                    <div id="group-replace-text-update-stock" class='form-group' style="display: none;">
+                        <label>(format: product name, replace product name)</label>
+                        <textarea class='form-control' id='replace-text-update-stock' name='replace-text-update-stock' rows='10'
+                                cols='50'></textarea>
+                    </div>
+
                     <div class='form-group'>
                         <label>Exclude Kata-Kata</label>
                         <textarea class='form-control' id='exclude-kata' name='exclude-kata' rows='5'
@@ -159,6 +170,21 @@
                     }
                 }
 
+                var check_replace_text = $('#check-replace-text').is(':checked');
+
+                if(check_replace_text){
+
+                    var replace_text = $('#replace-text-update-stock').val().trim().replace(/^\s*[\r\n]/gm, '');//remove blank lines
+                    var array_replace_text = [];
+                    if (replace_text != '') {
+                        array_replace_text = replace_text.split('\n');
+                        for (var a = 0; a < array_replace_text.length; a++) {
+                            var satu_data_replace_text = array_replace_text[a].split(',');
+                            update_stok_string = update_stok_string.replace(new RegExp(satu_data_replace_text[0], 'g'), satu_data_replace_text[1]);
+                        }
+                    }
+                }
+
                 var kolom_stok = 7;
                 var default_stok = parseInt($('input#default-stok').val()? $('input#default-stok').val() : 0);
                 var maximum_stok = parseInt($('input#maximum-stok').val()?$('input#maximum-stok').val() : 0);
@@ -242,6 +268,14 @@
 
                 $('#download-file-csv').removeAttr('disabled');
             }
+
+            $('#check-replace-text').change(function() {
+                if(this.checked) {
+                    $('#group-replace-text-update-stock').show();
+                }else{
+                    $('#group-replace-text-update-stock').hide();
+                }
+            });
 
             $('#paste-clipboard').on('click', async function(){
                 var text = await navigator.clipboard.readText();
