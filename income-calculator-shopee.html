@@ -95,6 +95,7 @@
                     <div class='form-group'>
                         <label>Excel Pricelist Shopee (format csv)</label>
                         <input type='file' class='form-control-file' id='pricelist-excel' name='pricelist-excel' />
+                        <span class="badge badge-warning">Pastikan harga barang tidak mengandung tanda "," (koma)</span>
                     </div>
 
                     <div class='row'>
@@ -131,8 +132,8 @@
             </div>
         </div>
         <br />
-        <button class="btn btn-sm btn-link float-right" data-toggle="popover" title="Info" data-html="true" data-content="Jika kolom nama barang kosong -> Tidak ditemukan data referensi di excel pesanan<br><br>
-        Jika kolom modal kosong  -> Tidak ditemukan data referensi di excel pricelist"><i class="fa fa-info"></i></button>
+        <button class="btn btn-md btn-link float-left" data-toggle="popover" title="Info" data-html="true" data-content="<b>Kolom nama barang kosong.</b> Alasan : data pesanan di excel pesanan tidak lengkap (perlu ambil data pesanan terdahulu/1 bulan sebelumnya)<br><br>
+        <b>Kolom modal kosong/nol.</b> Alasan : nama barang di pricelist tidak sama/mirip dengan nama barang di excel pesanan<br><br><b>Masalah lainnya.</b> Alasan : setting baris/kolom salah atau kesalahan pada data"><i class="fa fa-info"></i>&nbsp;&nbspKlik di sini jika ada kendala hasil di tabel</button>
         <div>
             <table id='table' class='table table-striped table-bordered' style='width:100%'>
                 <thead>
