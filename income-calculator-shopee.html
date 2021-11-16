@@ -30,17 +30,92 @@
                     
                     <div class='form-group'>
                         <label>Excel Penghasilan Shopee (format csv)</label>
-                        <input type='file' class='form-control' id='penghasilan-excel' name='stock-excel' />
+                        <input type='file' class='form-control-file' id='penghasilan-excel' name='stock-excel' />
+                    </div>
+
+                    <div class='row'>
+                        <div class="col-sm-4">
+                            <div class='form-group'>
+                                <label>Baris Awal Data</label>
+                                <input type='number' class='form-control' id='baris-awal-pesanan-penghasilan' name='baris-awal-pesanan-penghasilan' value="7"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class='form-group'>
+                                <label>Kolom No Pesanan</label>
+                                <input type='number' class='form-control' id='kolom-no-pesanan-penghasilan' name='kolom-no-pesanan-penghasilan' value="2"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class='form-group'>
+                                <label>Kolom Penghasilan</label>
+                                <input type='number' class='form-control' id='kolom-penghasilan-penghasilan' name='kolom-penghasilan-penghasilan' value="22"/>
+                            </div>
+                        </div>
                     </div>
 
                     <div class='form-group'>
                         <label>Excel Pesanan Shopee (format csv)</label>
-                        <input type='file' class='form-control' id='pesanan-excel' name='stock-excel' />
+                        <input type='file' class='form-control-file' id='pesanan-excel' name='pesanan-excel' />
+                    </div>
+
+                    <div class='row'>
+                        <div class="col-sm-2">
+                            <div class='form-group'>
+                                <label>Baris Awal Data</label>
+                                <input type='number' class='form-control' id='baris-awal-pesanan-pesanan' name='baris-awal-pesanan-pesanan' value="2"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class='form-group'>
+                                <label>Kolom No Pesanan</label>
+                                <input type='number' class='form-control' id='kolom-no-pesanan-pesanan' name='kolom-no-pesanan-pesanan' value="1"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class='form-group'>
+                                <label>Kolom Nama Barang</label>
+                                <input type='number' class='form-control' id='kolom-nama-barang-pesanan' name='kolom-nama-barang-pesanan' value="12"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class='form-group'>
+                                <label>Kolom Nama Varian</label>
+                                <input type='number' class='form-control' id='kolom-nama-varian-pesanan' name='kolom-nama-varian-pesanan' value="14"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class='form-group'>
+                                <label>Kolom Jumlah Barang</label>
+                                <input type='number' class='form-control' id='kolom-jumlah-barang-pesanan' name='kolom-jumlah-barang-pesanan' value="17"/>
+                            </div>
+                        </div>
                     </div>
 
                     <div class='form-group'>
                         <label>Excel Pricelist Shopee (format csv)</label>
-                        <input type='file' class='form-control' id='pricelist-excel' name='stock-excel' />
+                        <input type='file' class='form-control-file' id='pricelist-excel' name='pricelist-excel' />
+                    </div>
+
+                    <div class='row'>
+                        <div class="col-sm-4">
+                            <div class='form-group'>
+                                <label>Baris Awal Data</label>
+                                <input type='number' class='form-control' id='baris-awal-pricelist' name='baris-awal-pricelist' value="3"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class='form-group'>
+                                <label>Kolom Nama Barang</label>
+                                <input type='number' class='form-control' id='kolom-nama-barang-pricelist' name='kolom-nama-barang-pricelist' value="2"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class='form-group'>
+                                <label>Kolom Harga Modal</label>
+                                <input type='number' class='form-control' id='kolom-harga-modal-pricelist' name='kolom-harga-modal-pricelist' value="3"/>
+                            </div>
+                        </div>
                     </div>
 
                     <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>
@@ -104,19 +179,19 @@
             ];
 
             //statis variable
-            var barisAwalPesananDiPenghasilan = 6;
-            var kolomNoPesananDiPenghasilan = 1;
-            var kolomPenghasilanDiPenghasilan = 21;
+            var barisAwalPesananDiPenghasilan = parseInt($('#baris-awal-pesanan-penghasilan').val()? $('#baris-awal-pesanan-penghasilan').val()-1 : 6);
+            var kolomNoPesananDiPenghasilan = parseInt($('#kolom-no-pesanan-penghasilan').val()? $('#kolom-no-pesanan-penghasilan').val()-1 : 1);
+            var kolomPenghasilanDiPenghasilan = parseInt($('#kolom-penghasilan-penghasilan').val()? $('#kolom-penghasilan-penghasilan').val()-1 : 21);
 
-            var barisAwalPesananDiPesanan = 1;
-            var kolomNoPesananDiPesanan = 0;
-            var kolomNamaBarangDiPesanan = 11;
-            var kolomNamaVarianDiPesanan = 13;
-            var kolomJumlahBarangDiPesanan = 16;
+            var barisAwalPesananDiPesanan = parseInt($('#baris-awal-pesanan-pesanan').val()? $('#baris-awal-pesanan-pesanan').val()-1 : 1);
+            var kolomNoPesananDiPesanan = parseInt($('#kolom-no-pesanan-pesanan').val()? $('#kolom-no-pesanan-pesanan').val()-1 : 0);
+            var kolomNamaBarangDiPesanan = parseInt($('#kolom-nama-barang-pesanan').val()? $('#kolom-nama-barang-pesanan').val()-1 : 11);
+            var kolomNamaVarianDiPesanan = parseInt($('#kolom-nama-varian-pesanan').val()? $('#kolom-nama-varian-pesanan').val()-1 : 13);
+            var kolomJumlahBarangDiPesanan = parseInt($('#kolom-jumlah-barang-pesanan').val()? $('#kolom-jumlah-barang-pesanan').val()-1 : 16);
 
-            var barisAwalPriceDiPricelist = 2;
-            var kolomNamaBarangDiPricelist = 1;
-            var kolomHargaModalDiPricelist = 2;
+            var barisAwalPriceDiPricelist = parseInt($('#baris-awal-pricelist').val()? $('#baris-awal-pricelist').val()-1 :2);
+            var kolomNamaBarangDiPricelist = parseInt($('#kolom-nama-barang-pricelist').val()? $('#kolom-nama-barang-pricelist').val()-1 :1);
+            var kolomHargaModalDiPricelist = parseInt($('#kolom-harga-modal-pricelist').val()? $('#kolom-harga-modal-pricelist').val()-1 :2);
 
             var table = $('#table').DataTable({
                 paging:false,
