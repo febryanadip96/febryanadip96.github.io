@@ -179,21 +179,6 @@
                 '[{()}]' //close parenthesis
             ];
 
-            //statis variable
-            var barisAwalPesananDiPenghasilan = parseInt($('#baris-awal-pesanan-penghasilan').val()? $('#baris-awal-pesanan-penghasilan').val()-1 : 6);
-            var kolomNoPesananDiPenghasilan = parseInt($('#kolom-no-pesanan-penghasilan').val()? $('#kolom-no-pesanan-penghasilan').val()-1 : 1);
-            var kolomPenghasilanDiPenghasilan = parseInt($('#kolom-penghasilan-penghasilan').val()? $('#kolom-penghasilan-penghasilan').val()-1 : 21);
-
-            var barisAwalPesananDiPesanan = parseInt($('#baris-awal-pesanan-pesanan').val()? $('#baris-awal-pesanan-pesanan').val()-1 : 1);
-            var kolomNoPesananDiPesanan = parseInt($('#kolom-no-pesanan-pesanan').val()? $('#kolom-no-pesanan-pesanan').val()-1 : 0);
-            var kolomNamaBarangDiPesanan = parseInt($('#kolom-nama-barang-pesanan').val()? $('#kolom-nama-barang-pesanan').val()-1 : 11);
-            var kolomNamaVarianDiPesanan = parseInt($('#kolom-nama-varian-pesanan').val()? $('#kolom-nama-varian-pesanan').val()-1 : 13);
-            var kolomJumlahBarangDiPesanan = parseInt($('#kolom-jumlah-barang-pesanan').val()? $('#kolom-jumlah-barang-pesanan').val()-1 : 16);
-
-            var barisAwalPriceDiPricelist = parseInt($('#baris-awal-pricelist').val()? $('#baris-awal-pricelist').val()-1 :2);
-            var kolomNamaBarangDiPricelist = parseInt($('#kolom-nama-barang-pricelist').val()? $('#kolom-nama-barang-pricelist').val()-1 :1);
-            var kolomHargaModalDiPricelist = parseInt($('#kolom-harga-modal-pricelist').val()? $('#kolom-harga-modal-pricelist').val()-1 :2);
-
             var table = $('#table').DataTable({
                 paging:false,
                 fixedHeader: true
@@ -264,6 +249,22 @@
             }
 
             function mainProcess(){
+
+                //get variable
+                var barisAwalPesananDiPenghasilan = parseInt($('#baris-awal-pesanan-penghasilan').val()? $('#baris-awal-pesanan-penghasilan').val()-1 : 6);
+                var kolomNoPesananDiPenghasilan = parseInt($('#kolom-no-pesanan-penghasilan').val()? $('#kolom-no-pesanan-penghasilan').val()-1 : 1);
+                var kolomPenghasilanDiPenghasilan = parseInt($('#kolom-penghasilan-penghasilan').val()? $('#kolom-penghasilan-penghasilan').val()-1 : 21);
+
+                var barisAwalPesananDiPesanan = parseInt($('#baris-awal-pesanan-pesanan').val()? $('#baris-awal-pesanan-pesanan').val()-1 : 1);
+                var kolomNoPesananDiPesanan = parseInt($('#kolom-no-pesanan-pesanan').val()? $('#kolom-no-pesanan-pesanan').val()-1 : 0);
+                var kolomNamaBarangDiPesanan = parseInt($('#kolom-nama-barang-pesanan').val()? $('#kolom-nama-barang-pesanan').val()-1 : 11);
+                var kolomNamaVarianDiPesanan = parseInt($('#kolom-nama-varian-pesanan').val()? $('#kolom-nama-varian-pesanan').val()-1 : 13);
+                var kolomJumlahBarangDiPesanan = parseInt($('#kolom-jumlah-barang-pesanan').val()? $('#kolom-jumlah-barang-pesanan').val()-1 : 16);
+
+                var barisAwalPriceDiPricelist = parseInt($('#baris-awal-pricelist').val()? $('#baris-awal-pricelist').val()-1 :2);
+                var kolomNamaBarangDiPricelist = parseInt($('#kolom-nama-barang-pricelist').val()? $('#kolom-nama-barang-pricelist').val()-1 :1);
+                var kolomHargaModalDiPricelist = parseInt($('#kolom-harga-modal-pricelist').val()? $('#kolom-harga-modal-pricelist').val()-1 :2);
+
 
                 table.clear().draw();
 
