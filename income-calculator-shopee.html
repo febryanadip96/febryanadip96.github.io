@@ -37,19 +37,19 @@
                         <div class="col-sm-4">
                             <div class='form-group'>
                                 <label>Baris Awal Data</label>
-                                <input type='number' class='form-control' id='baris-awal-pesanan-penghasilan' name='baris-awal-pesanan-penghasilan' value="7"/>
+                                <input type='number' class='form-control' id='baris-awal-pesanan-penghasilan' name='baris-awal-pesanan-penghasilan'/>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class='form-group'>
                                 <label>Kolom No Pesanan</label>
-                                <input type='number' class='form-control' id='kolom-no-pesanan-penghasilan' name='kolom-no-pesanan-penghasilan' value="2"/>
+                                <input type='number' class='form-control' id='kolom-no-pesanan-penghasilan' name='kolom-no-pesanan-penghasilan'/>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class='form-group'>
                                 <label>Kolom Penghasilan</label>
-                                <input type='number' class='form-control' id='kolom-penghasilan-penghasilan' name='kolom-penghasilan-penghasilan' value="22"/>
+                                <input type='number' class='form-control' id='kolom-penghasilan-penghasilan' name='kolom-penghasilan-penghasilan'/>
                             </div>
                         </div>
                     </div>
@@ -63,31 +63,31 @@
                         <div class="col-sm-2">
                             <div class='form-group'>
                                 <label>Baris Awal Data</label>
-                                <input type='number' class='form-control' id='baris-awal-pesanan-pesanan' name='baris-awal-pesanan-pesanan' value="2"/>
+                                <input type='number' class='form-control' id='baris-awal-pesanan-pesanan' name='baris-awal-pesanan-pesanan'/>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class='form-group'>
                                 <label>Kolom No Pesanan</label>
-                                <input type='number' class='form-control' id='kolom-no-pesanan-pesanan' name='kolom-no-pesanan-pesanan' value="1"/>
+                                <input type='number' class='form-control' id='kolom-no-pesanan-pesanan' name='kolom-no-pesanan-pesanan'/>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class='form-group'>
                                 <label>Kolom Nama Barang</label>
-                                <input type='number' class='form-control' id='kolom-nama-barang-pesanan' name='kolom-nama-barang-pesanan' value="12"/>
+                                <input type='number' class='form-control' id='kolom-nama-barang-pesanan' name='kolom-nama-barang-pesanan'/>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class='form-group'>
                                 <label>Kolom Nama Varian</label>
-                                <input type='number' class='form-control' id='kolom-nama-varian-pesanan' name='kolom-nama-varian-pesanan' value="14"/>
+                                <input type='number' class='form-control' id='kolom-nama-varian-pesanan' name='kolom-nama-varian-pesanan'/>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class='form-group'>
                                 <label>Kolom Jumlah Barang</label>
-                                <input type='number' class='form-control' id='kolom-jumlah-barang-pesanan' name='kolom-jumlah-barang-pesanan' value="17"/>
+                                <input type='number' class='form-control' id='kolom-jumlah-barang-pesanan' name='kolom-jumlah-barang-pesanan'/>
                             </div>
                         </div>
                     </div>
@@ -102,19 +102,19 @@
                         <div class="col-sm-4">
                             <div class='form-group'>
                                 <label>Baris Awal Data</label>
-                                <input type='number' class='form-control' id='baris-awal-pricelist' name='baris-awal-pricelist' value="3"/>
+                                <input type='number' class='form-control' id='baris-awal-pricelist' name='baris-awal-pricelist'/>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class='form-group'>
                                 <label>Kolom Nama Barang</label>
-                                <input type='number' class='form-control' id='kolom-nama-barang-pricelist' name='kolom-nama-barang-pricelist' value="2"/>
+                                <input type='number' class='form-control' id='kolom-nama-barang-pricelist' name='kolom-nama-barang-pricelist'/>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class='form-group'>
                                 <label>Kolom Harga Modal</label>
-                                <input type='number' class='form-control' id='kolom-harga-modal-pricelist' name='kolom-harga-modal-pricelist' value="3"/>
+                                <input type='number' class='form-control' id='kolom-harga-modal-pricelist' name='kolom-harga-modal-pricelist'/>
                             </div>
                         </div>
                     </div>
@@ -160,6 +160,37 @@
 
     <script>
         $(function () {
+
+            //get variable
+            var barisAwalPesananDiPenghasilan = 6;
+            var kolomNoPesananDiPenghasilan = 1;
+            var kolomPenghasilanDiPenghasilan = 21;
+
+            var barisAwalPesananDiPesanan = 1;
+            var kolomNoPesananDiPesanan = 0;
+            var kolomNamaBarangDiPesanan = 12;
+            var kolomNamaVarianDiPesanan = 14;
+            var kolomJumlahBarangDiPesanan = 17;
+
+            var barisAwalPriceDiPricelist = 2;
+            var kolomNamaBarangDiPricelist = 1;
+            var kolomHargaModalDiPricelist = 2;
+
+            $('#baris-awal-pesanan-penghasilan').val(barisAwalPesananDiPenghasilan+1);
+            $('#kolom-no-pesanan-penghasilan').val(kolomNoPesananDiPenghasilan+1);
+            $('#kolom-penghasilan-penghasilan').val(kolomPenghasilanDiPenghasilan+1);
+
+            $('#baris-awal-pesanan-pesanan').val(barisAwalPesananDiPesanan+1);
+            $('#kolom-no-pesanan-pesanan').val(kolomNoPesananDiPesanan+1);
+            $('#kolom-nama-barang-pesanan').val(kolomNamaBarangDiPesanan+1);
+            $('#kolom-nama-varian-pesanan').val(kolomNamaVarianDiPesanan+1);
+            $('#kolom-jumlah-barang-pesanan').val(kolomJumlahBarangDiPesanan+1);
+
+            $('#baris-awal-pricelist').val(barisAwalPriceDiPricelist+1);
+            $('#kolom-nama-barang-pricelist').val(kolomNamaBarangDiPricelist+1);
+            $('#kolom-harga-modal-pricelist').val(kolomHargaModalDiPricelist+1);
+
+
 
             var filePenghasilan = null;
             var filePesanan = null;
@@ -251,19 +282,19 @@
             function mainProcess(){
 
                 //get variable
-                var barisAwalPesananDiPenghasilan = parseInt($('#baris-awal-pesanan-penghasilan').val()? $('#baris-awal-pesanan-penghasilan').val()-1 : 6);
-                var kolomNoPesananDiPenghasilan = parseInt($('#kolom-no-pesanan-penghasilan').val()? $('#kolom-no-pesanan-penghasilan').val()-1 : 1);
-                var kolomPenghasilanDiPenghasilan = parseInt($('#kolom-penghasilan-penghasilan').val()? $('#kolom-penghasilan-penghasilan').val()-1 : 21);
+                if($('#baris-awal-pesanan-penghasilan').val()) barisAwalPesananDiPenghasilan = parseInt($('#baris-awal-pesanan-penghasilan').val() - 1);
+                if($('#kolom-no-pesanan-penghasilan').val()) kolomNoPesananDiPenghasilan = parseInt($('#kolom-no-pesanan-penghasilan').val() - 1);
+                if($('#kolom-penghasilan-penghasilan').val()) kolomPenghasilanDiPenghasilan = parseInt($('#kolom-penghasilan-penghasilan').val() - 1);
 
-                var barisAwalPesananDiPesanan = parseInt($('#baris-awal-pesanan-pesanan').val()? $('#baris-awal-pesanan-pesanan').val()-1 : 1);
-                var kolomNoPesananDiPesanan = parseInt($('#kolom-no-pesanan-pesanan').val()? $('#kolom-no-pesanan-pesanan').val()-1 : 0);
-                var kolomNamaBarangDiPesanan = parseInt($('#kolom-nama-barang-pesanan').val()? $('#kolom-nama-barang-pesanan').val()-1 : 11);
-                var kolomNamaVarianDiPesanan = parseInt($('#kolom-nama-varian-pesanan').val()? $('#kolom-nama-varian-pesanan').val()-1 : 13);
-                var kolomJumlahBarangDiPesanan = parseInt($('#kolom-jumlah-barang-pesanan').val()? $('#kolom-jumlah-barang-pesanan').val()-1 : 16);
+                if($('#baris-awal-pesanan-pesanan').val()) barisAwalPesananDiPesanan = parseInt($('#baris-awal-pesanan-pesanan').val() -1);
+                if($('#kolom-no-pesanan-pesanan').val()) kolomNoPesananDiPesanan = parseInt($('#kolom-no-pesanan-pesanan').val() -1);
+                if($('#kolom-nama-barang-pesanan').val())  kolomNamaBarangDiPesanan = parseInt($('#kolom-nama-barang-pesanan').val()-1);
+                if($('#kolom-nama-varian-pesanan').val()) kolomNamaVarianDiPesanan = parseInt($('#kolom-nama-varian-pesanan').val() -1);
+                if($('#kolom-jumlah-barang-pesanan').val()) kolomJumlahBarangDiPesanan = parseInt($('#kolom-jumlah-barang-pesanan').val()-1);
 
-                var barisAwalPriceDiPricelist = parseInt($('#baris-awal-pricelist').val()? $('#baris-awal-pricelist').val()-1 :2);
-                var kolomNamaBarangDiPricelist = parseInt($('#kolom-nama-barang-pricelist').val()? $('#kolom-nama-barang-pricelist').val()-1 :1);
-                var kolomHargaModalDiPricelist = parseInt($('#kolom-harga-modal-pricelist').val()? $('#kolom-harga-modal-pricelist').val()-1 :2);
+                if($('#baris-awal-pricelist').val())  barisAwalPriceDiPricelist = (parseInt($('#baris-awal-pricelist').val()-1));
+                if($('#kolom-nama-barang-pricelist').val()) kolomNamaBarangDiPricelist = parseInt($('#kolom-nama-barang-pricelist').val()-1 );
+                if($('#kolom-harga-modal-pricelist').val()) kolomHargaModalDiPricelist = parseInt($('#kolom-harga-modal-pricelist').val()-1 );
 
 
                 table.clear().draw();
@@ -303,9 +334,9 @@
 
                                 var data_pesanan = array_pesanan[j].split(',');
 
-                                nama_barang_dan_jumlah += data_pesanan[kolomNamaBarangDiPesanan] +' <b>' +data_pesanan[kolomJumlahBarangDiPesanan]+'x</b><br>';
+                                nama_barang_dan_jumlah += data_pesanan[kolomNamaBarangDiPesanan]+ ' '+ data_pesanan[kolomNamaVarianDiPesanan]+' <b>' +data_pesanan[kolomJumlahBarangDiPesanan]+'x</b><br>';
 
-                                var nama_barang_to_check = data_pesanan[kolomNamaBarangDiPesanan].toLowerCase();
+                                var nama_barang_to_check = data_pesanan[kolomNamaBarangDiPesanan].toLowerCase()+ ' '+ data_pesanan[kolomNamaVarianDiPesanan].toLowerCase();
 
                                 var harga_barang = 0;
 
