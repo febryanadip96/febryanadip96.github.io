@@ -78,7 +78,7 @@
 
                     <div class='form-group'>
                         <label>Maximum Stock</label>
-                        <input type='number' class='form-control' id='maximum-stok' name='maximum-stok' value='50'></input>
+                        <input type='number' class='form-control' id='maximum-stok' name='maximum-stok' value='70'></input>
                     </div>
                     <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>Proses</button>
                 </form>
@@ -262,13 +262,15 @@
                         }
                     }
                 }
+                
+                var kolom_nama_barang_dan_varian = 2;
 
                 hasil += excel_header;
                 for (var l = 0; l < array_stok_excel.length; l++) {
                     hasil += array_stok_excel[l] + '\n';
                     var data_stok_excel = array_stok_excel[l].split(',');
                     if(parseInt(data_stok_excel[kolom_stok]) == 0){
-                        stok_kosong += data_stok_excel[2] + '\n';
+                        stok_kosong += data_stok_excel[kolom_nama_barang_dan_varian] + '\n';
                     }
                 }
 

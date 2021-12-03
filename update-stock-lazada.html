@@ -20,7 +20,7 @@
 
 <body style='padding-top: 20px;'>
     <div class='container'>
-        <h2 class='text-center'>📦 JH Stockist Shopee 📦</h2>
+        <h2 class='text-center'>📦 JH Stockist Lazada 📦</h2>
         <br/>
         <div class='row'>
             <div class='col-sm-12'>
@@ -49,7 +49,7 @@
                     <br/>
 
                     <div class='form-group'>
-                        <label>Excel Stock Shopee (format csv)</label>
+                        <label>Excel Stock Lazada (format csv)</label>
                         <input type='file' class='form-control' id='stock-excel' name='stock-excel' />
                     </div>
 
@@ -90,7 +90,7 @@
             <div class='col-sm-12'>
                 <button id='download-file-csv' class='btn btn-sm btn-outline-primary float-right' disabled>Download
                     CSV</button>
-                <h4>Hasil Updated Excel Stock Shopee (format csv)</h4>
+                <h4>Hasil Updated Excel Stock Lazada (format csv)</h4>
 
                 <div class='form-group'>
                     <textarea class='form-control' id='hasil' name='hasil' rows='10' cols='50' readonly></textarea>
@@ -143,7 +143,7 @@
             });
 
             function UpdateStok(data) {
-                var header_row = 4;
+                var header_row = 1;
 
                 var excel_header = '';
                 var stok_excel_string = '';
@@ -185,7 +185,7 @@
                     }
                 }
 
-                var kolom_stok = 7;
+                var kolom_stok = 8;
                 var default_stok = parseInt($('input#default-stok').val()? $('input#default-stok').val() : 0);
                 var maximum_stok = parseInt($('input#maximum-stok').val()?$('input#maximum-stok').val() : 0);
 
@@ -253,8 +253,8 @@
                     }
                 }
                 
-                var kolom_nama_barang = 1;
-                var kolom_nama_varian = 3;
+                var kolom_nama_barang = 2;
+                var kolom_nama_varian = 5;
 
                 hasil += excel_header;
                 for (var l = 0; l < array_stok_excel.length; l++) {

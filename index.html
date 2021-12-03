@@ -30,6 +30,7 @@
                 <h2>Welcome To <span id="webname"></span></h2><br>
                 <button id="btn-stockist-shopee" class="btn btn-light btn-lg mb-2">Stockist Shopee</button><br>
                 <button id="btn-stockist-tokopedia" class="btn btn-light btn-lg mb-2">Stockist Tokopedia</button><br>
+                <button id="btn-stockist-lazada" class="btn btn-light btn-lg mb-2">Stockist Lazada</button><br>
                 <button id="btn-income-calculator-shopee" class="btn btn-light btn-lg">Income Calculator Shopee</button>
             </div>
         </div>
@@ -48,6 +49,10 @@
 
             $(document).on('click', '#btn-stockist-tokopedia', function(){
                 window.location.href = origin+"/update-stock-tokopedia.html";
+            });
+
+            $(document).on('click', '#btn-stockist-lazada', function(){
+                window.location.href = origin+"/update-stock-lazada.html";
             });
 
             $(document).on('click', '#btn-income-calculator-shopee', function(){
