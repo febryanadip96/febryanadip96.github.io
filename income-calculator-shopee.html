@@ -4,10 +4,8 @@
 <head>
     <title>Income Statement</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js'
-        integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN'
-        crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'
         integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q'
         crossorigin='anonymous'></script>
@@ -120,8 +118,11 @@
                     </div>
 
                     <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>
+                        <span id="loading" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
                         Proses
                     </button>
+
+                    
 
                     
                     <div class='form-group'>
@@ -131,6 +132,7 @@
                 </form>
             </div>
         </div>
+
         <br />
         <button class="btn btn-md btn-link float-left" data-toggle="popover" title="Info" data-html="true" data-content="<b>Kolom nama barang kosong.</b> Alasan : data pesanan di excel pesanan tidak lengkap (perlu ambil data pesanan terdahulu/1 bulan sebelumnya)<br><br>
         <b>Kolom modal kosong/nol.</b> Alasan : nama barang di pricelist tidak sama/mirip dengan nama barang di excel pesanan<br><br><b>Masalah lainnya.</b> Alasan : setting baris/kolom salah atau kesalahan pada data"><i class="fa fa-info"></i>&nbsp;&nbspKlik di sini jika ada kendala hasil di tabel</button>
@@ -191,7 +193,6 @@
             $('#kolom-harga-modal-pricelist').val(kolomHargaModalDiPricelist+1);
 
 
-
             var filePenghasilan = null;
             var filePesanan = null;
             var filePricelist = null;
@@ -211,7 +212,6 @@
             ];
 
             var table = $('#table').DataTable({
-                paging:false,
                 fixedHeader: true
             });
 
@@ -299,99 +299,39 @@
 
                 table.clear().draw();
 
-                try{
+                stringPricelist = stringPricelist.toLowerCase().replace(new RegExp(exclude_in_pricelist.join('|'), 'g'), '');
 
-                    stringPricelist = stringPricelist.toLowerCase().replace(new RegExp(exclude_in_pricelist.join('|'), 'g'), '')
+                
+                $('#loading').removeClass('d-none');
 
-                    var array_pesanan = stringPesanan.split('\n');
-                    var array_penghasilan = stringPenghasilan.split('\n');
-                    var array_pricelist = stringPricelist.split('\n');
+                $.ajax({
+                    type : "POST",
+                    url : 'backend-income-calculator-shopee.php',
+                    data : {barisAwalPesananDiPenghasilan, kolomNoPesananDiPenghasilan, kolomPenghasilanDiPenghasilan,
+                        barisAwalPesananDiPesanan, kolomNoPesananDiPesanan, kolomNamaBarangDiPesanan, kolomNamaVarianDiPesanan, kolomJumlahBarangDiPesanan,
+                        barisAwalPriceDiPricelist, kolomNamaBarangDiPricelist, kolomHargaModalDiPricelist,
+                        stringPesanan, stringPenghasilan, stringPricelist},
+                    success: function(data) {
+                        var object = JSON.parse(data);
 
-                    var total_modal = 0;
-                    var total_penghasilan = 0;
-                    var untung = 0;
-                    var total_untung = 0;
-
-                    for (var i = barisAwalPesananDiPenghasilan; i < array_penghasilan.length; i++) {
-                        var data_penghasilan = array_penghasilan[i].split(',');
-                        var no_pesanan = data_penghasilan[kolomNoPesananDiPenghasilan];
-
-                        if(typeof no_pesanan == 'undefined') break;
-
-                        total_penghasilan = parseInt(data_penghasilan[kolomPenghasilanDiPenghasilan]);
-
-                        var nama_barang_dan_jumlah = '';
-
-                        var text_harga_barang = '';
-
-                        untung = 0;
-
-                        total_modal = 0;
-
-                        for(var j = barisAwalPesananDiPesanan; j < array_pesanan.length; j++){
-
-                            if(array_pesanan[j].match(new RegExp('\\b'+no_pesanan+'\\b', 'g'))!=null){
-
-                                var data_pesanan = array_pesanan[j].split(',');
-
-                                nama_barang_dan_jumlah += data_pesanan[kolomNamaBarangDiPesanan]+ ' '+ data_pesanan[kolomNamaVarianDiPesanan]+' <b>' +data_pesanan[kolomJumlahBarangDiPesanan]+'x</b><br>';
-
-                                var nama_barang_to_check = data_pesanan[kolomNamaBarangDiPesanan].toLowerCase()+ ' '+ data_pesanan[kolomNamaVarianDiPesanan].toLowerCase();
-
-                                var harga_barang = 0;
-
-                                for(var h = barisAwalPriceDiPricelist; h < array_pricelist.length; h++){
-
-                                    var data_pricelist = array_pricelist[h].split(',');
-
-                                    var ada = true;
-
-                                    var array_nama_barang_pricelist = String(data_pricelist[kolomNamaBarangDiPricelist]).trim().toLowerCase().split(' ');
-
-                                    for (var k = 0; k < array_nama_barang_pricelist.length; k++) {
-
-                                        if (nama_barang_to_check.match(new RegExp('\\b'+String(array_nama_barang_pricelist[k]).trim()+'\\b', 'g'))==null) {//Find a match at the beginning/end of a word
-                                            ada = false;
-                                        }
-
-                                    }
-
-                                    if(ada){
-                                        harga_barang += parseInt(data_pesanan[kolomJumlahBarangDiPesanan])*parseInt(data_pricelist[kolomHargaModalDiPricelist]);
-                                        
-                                        if(Number.isNaN(harga_barang)) harga_barang = 0;
-
-                                        text_harga_barang += harga_barang+ "<br>";
-
-                                        total_modal += harga_barang;
-                                        break;
-                                    }
-                                }
-                            }
+                        var data_table = object['data_table'];
+                        for (var i = 0; i < data_table.length; i++) {
+                            table.row.add([
+                                data_table[i][0],
+                                data_table[i][1],
+                                data_table[i][2],
+                                data_table[i][3],
+                                data_table[i][4]
+                            ]).draw( false );
                         }
 
-                        text_harga_barang += '(<b>'+total_modal+'</b>)'
-
-                        untung = total_penghasilan - total_modal;
-                        total_untung += untung;
-
-                        table.row.add([
-                            no_pesanan,
-                            nama_barang_dan_jumlah,
-                            text_harga_barang,
-                            total_penghasilan,
-                            untung
-                        ]).draw( false );
+                        $('#total-untung').val(object['total_untung']);
+                        
+                        $('#loading').addClass('d-none'); 
                     }
-
-                    $('#total-untung').val(total_untung);
-                }
-                catch(err){
-                    alert(err);
-                }
-                
+                });
             }
-        });   
+        });
     </script>
 </body>
 
