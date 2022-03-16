@@ -185,7 +185,10 @@
                     }
                 }
 
+                var kolom_nama_barang_dan_varian = 2;
                 var kolom_stok = 6;
+                var kolom_sku = 7;
+
                 var default_stok = parseInt($('input#default-stok').val()? $('input#default-stok').val() : 0);
                 var maximum_stok = parseInt($('input#maximum-stok').val()?$('input#maximum-stok').val() : 0);
 
@@ -224,7 +227,12 @@
                     gagal += array_update_stok[i] + '\n';
                     for (var j = 0; j < array_stok_excel.length; j++) {
                         var ada = true;
-                        var string_satu_data_stok_excel = array_stok_excel[j].replace(/,/g, ' ').toLowerCase();//delete ',' in array 2385557693,,MARSHA MINI BAG TAS DOMPET KECIL CANTIK MEWAH LUCU SIMPEL JIMS HONEY ORI,4869951577,,Red,175000.0,0,,
+                        
+                        var data_satu_barang = array_stok_excel[j].split(',');
+                        var string_nama_barang_dan_varian = data_satu_barang[kolom_nama_barang_dan_varian].toLowerCase();
+                        var string_sku = data_satu_barang[kolom_sku].toLowerCase();
+                        var string_satu_data_stok_excel = string_nama_barang_dan_varian+" "+string_sku;
+
                         if(string_satu_data_stok_excel.length == 0){
                             break;
                         }
@@ -262,8 +270,6 @@
                         }
                     }
                 }
-                
-                var kolom_nama_barang_dan_varian = 2;
 
                 hasil += excel_header;
                 for (var l = 0; l < array_stok_excel.length; l++) {

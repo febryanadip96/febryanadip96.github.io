@@ -224,11 +224,13 @@
                     gagal += array_update_stok[i] + '\n';
                     for (var j = 0; j < array_stok_excel.length; j++) {
                         var ada = true;
+
                         var data_satu_barang = array_stok_excel[j].split(',');
                         var string_nama_barang = data_satu_barang[kolom_nama_barang].toLowerCase();
                         var string_nama_varian = data_satu_barang[kolom_nama_varian].toLowerCase();
                         var string_sku = data_satu_barang[kolom_sku].toLowerCase();
                         var string_satu_data_stok_excel = string_nama_barang+" "+string_nama_varian+" "+string_sku;
+                        
                         if(string_satu_data_stok_excel.length == 0){
                             break;
                         }
