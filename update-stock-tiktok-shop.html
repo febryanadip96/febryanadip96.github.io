@@ -180,7 +180,7 @@
                         array_replace_text = replace_text.split('\n');
                         for (var a = 0; a < array_replace_text.length; a++) {
                             var satu_data_replace_text = array_replace_text[a].split(',');
-                            update_stok_string = update_stok_string.replace(new RegExp(satu_data_replace_text[0], 'g'), satu_data_replace_text[1]);
+                            update_stok_string = update_stok_string.replace(new RegExp(satu_data_replace_text[0]+' ', 'g'), satu_data_replace_text[1]+' ');
                         }
                     }
                 }
