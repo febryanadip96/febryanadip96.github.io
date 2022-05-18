@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Update Stock Reseller</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
+        integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js'
+        integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN'
+        crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'
+        integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q'
+        crossorigin='anonymous'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'
+        integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl'
+        crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js'></script>
+</head>
+
+<body style='padding-top: 20px;'>
+    <div class='container'>
+        <h2 class='text-center'>✍️ JH Update Stock Reseller ✍️</h2>
+        <br/>
+        <div class='row'>
+            <div class='col-sm-12'>
+                <form id='form-update-stock'>
+                    <div class='row'>
+                        <div class='form-group col-sm-6'>
+                            <button id='paste-clipboard' class='btn btn-sm btn-outline-primary float-right'>Paste from Clipboard</button>
+                            <label>Input</label>
+                            <textarea class='form-control' id='update-stock' name='update-stock' rows='15'
+                                cols='50'></textarea>
+                        </div>
+                        <div class='form-group col-sm-6'>
+                            <button id='copy-text-hasil' data-clipboard-target='#hasil'
+                            class='btn btn-sm btn-outline-primary float-right'>Copy Text</button>
+                            <label>Output</label>
+                            <textarea class='form-control' id='hasil' name='hasil' rows='15' cols='50'></textarea>
+                        </div>
+                    </div>
+                    <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>Proses</button>
+                </form>
+            </div>
+            <div class='col-sm-12'>
+                <br />
+                <br />
+                <label>Duplicate Products</label>
+                <div class='form-group'>
+                    <textarea class='form-control' id='duplicate-products' name='stok-kosong' rows='15' cols='50' readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+
+            $('#form-update-stock').submit(function (e) {
+                e.preventDefault();
+            });
+
+            var ranges = [
+                '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+                '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+                '\ud83d[\ude80-\udeff]',  // U+1F680 to U+1F6FF
+                '[^\x00-\x7F]', // non-ascii
+                '[{()}]',
+                '- ' //close parenthesis
+            ];
+
+            $('#submit-input').on('click', function(){
+                var update_stok_string = $('textarea#update-stock').val().replace(new RegExp(ranges.join('|'), 'g'), '').replace(/^\s*[\r\n]/gm, '');
+
+                if (update_stok_string == '') {
+                    alert('Harap masukkan data update stok terbaru');
+                    return;
+                }
+
+                //array update stok
+                var array_update_stok = update_stok_string.split('\n');
+                var array_hasil_update_stok = [];
+                var array_nama_produk = [];
+
+                for (var i = 0; i < array_update_stok.length; i++) {
+                    var string_array_update_stok =  array_update_stok[i].trim().toUpperCase();
+                    if(string_array_update_stok.length == 0) break;
+                    var array_data_update_stok = string_array_update_stok.split(' ');//MARSHA MINI BAG BLACK => MARSHA,MINI,BAG,BLACK
+
+                    var nama_produk = '';
+                    var qty_produk = 0;
+
+                    if (!isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
+                        qty_produk = array_data_update_stok[array_data_update_stok.length - 1];
+                        array_data_update_stok.pop();
+                        nama_produk = array_data_update_stok.join(' ')
+                    }else{
+                        nama_produk = array_data_update_stok.join(' ');
+                    }
+                    array_hasil_update_stok.push([nama_produk, qty_produk]);
+                    array_nama_produk.push(nama_produk);
+                }
+
+                var duplicates_produk = findDuplicates(array_nama_produk);
+                var text_to_show_duplicates = '';
+                duplicates_produk.forEach(element => {
+                    text_to_show_duplicates += element + '\n';
+                });
+
+                $('#duplicate-products').val(text_to_show_duplicates);
+
+                var index_to_delete = [];
+                duplicates_produk.forEach(element => {
+                    var index_to_delete_current_product = [];
+                    for(var h =0; h < array_nama_produk.length; h++){
+                        if(array_nama_produk[h] == element){
+                            index_to_delete_current_product.push(h);
+                        }
+                    }
+                    index_to_delete_current_product.shift();
+                    index_to_delete = index_to_delete.concat(index_to_delete_current_product);
+                });
+
+                index_to_delete.sort();
+
+                for(var k = index_to_delete.length -1; k >= 0; k--){
+                    array_hasil_update_stok.splice(index_to_delete[k], 1);
+                }
+
+                array_hasil_update_stok.sort();
+
+                var text_to_show_hasil = '';
+                array_hasil_update_stok.forEach(element => {
+                    text_to_show_hasil += element.join(' ')+ '\n';
+                });
+                
+                $('#hasil').val(text_to_show_hasil);
+            });
+
+            function findDuplicates(arr) {
+                const filtered = arr.filter((item, index) => arr.indexOf(item) !== index);
+                return [...new Set(filtered)]
+            }
+
+            $('#paste-clipboard').on('click', async function(){
+                var text = await navigator.clipboard.readText();
+                $('#update-stock').val(text);
+            });
+
+            var copy_text_hasil = new ClipboardJS('#copy-text-hasil');
+            copy_text_hasil.on('success', function (e) {
+                $('#copy-text-hasil').text('Copied!');
+                e.clearSelection();
+            });
+        });
+    </script>
+</body>
