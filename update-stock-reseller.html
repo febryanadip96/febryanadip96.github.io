@@ -50,6 +50,13 @@
                         <textarea class='form-control' id='replace-text-update-stock' name='replace-text-update-stock' rows='10'
                                 cols='50'></textarea>
                     </div>
+
+                    <div class='form-group'>
+                        <label>Exclude Input</label>
+                        <textarea class='form-control' id='exclude-input' name='exclude-input' rows='5'
+                            cols='50'>BUBBLE WRAP&#13;&#10;CODE&#13;&#10;KARTU UCAPAN&#13;&#10;GIFT WRAPPING&#13;&#10;KAOS&#13;&#10;POLYMAILER</textarea>
+                    </div>
+
                     <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>Proses</button>
                 </form>
             </div>
@@ -149,7 +156,28 @@
                     index_to_delete = index_to_delete.concat(index_to_delete_current_product);
                 });
 
-                index_to_delete.sort();
+                var exclude_input = $('#exclude-input').val().trim().replace(/^\s*[\r\n]/gm, '');//remove blank lines
+                var index_to_delete_current_input = [];
+                if (exclude_input != '') {
+                    var array_exclude_input = [];
+                    array_exclude_input = exclude_input.split('\n');
+                    for (var a = 0; a < array_exclude_input.length; a++) {
+                        for(var b = 0; b < array_nama_produk.length; b++){
+                            if(array_nama_produk[b].match(new RegExp('\\b'+array_exclude_input[a].trim()+'\\b', 'g'))!=null){
+                                index_to_delete_current_input.push(b);
+                            }
+                        }
+                    }
+                }
+
+                index_to_delete = index_to_delete.concat(index_to_delete_current_input);
+
+                index_to_delete = index_to_delete.filter(onlyUnique);
+
+                //sort by number
+                index_to_delete.sort(function(a, b) {
+                    return a - b;
+                });
 
                 for(var k = index_to_delete.length -1; k >= 0; k--){
                     array_hasil_update_stok.splice(index_to_delete[k], 1);
@@ -168,6 +196,10 @@
             function findDuplicates(arr) {
                 const filtered = arr.filter((item, index) => arr.indexOf(item) !== index);
                 return [...new Set(filtered)]
+            }
+
+            function onlyUnique(value, index, self) {
+                return self.indexOf(value) === index;
             }
 
             $('#check-replace-text').change(function() {
