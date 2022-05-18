@@ -39,6 +39,17 @@
                             <textarea class='form-control' id='hasil' name='hasil' rows='15' cols='50'></textarea>
                         </div>
                     </div>
+                    
+                    <div class='form-check'>
+                        <input type='checkbox' class='form-check-input' id='check-replace-text' name='check-replace-text'/>
+                        <label class='form-check-label' for='check-replace-text'>Replace Text</label>
+                    </div>
+
+                    <div id="group-replace-text-update-stock" class='form-group' style="display: none;">
+                        <label>(format: product name, replace product name)</label>
+                        <textarea class='form-control' id='replace-text-update-stock' name='replace-text-update-stock' rows='10'
+                                cols='50'></textarea>
+                    </div>
                     <button type='submit' id="submit-input" class='btn btn-outline-primary btn-block'>Proses</button>
                 </form>
             </div>
@@ -74,6 +85,21 @@
                 if (update_stok_string == '') {
                     alert('Harap masukkan data update stok terbaru');
                     return;
+                }
+
+                var check_replace_text = $('#check-replace-text').is(':checked');
+
+                if(check_replace_text){
+
+                    var replace_text = $('#replace-text-update-stock').val().trim().replace(/^\s*[\r\n]/gm, '');//remove blank lines
+                    var array_replace_text = [];
+                    if (replace_text != '') {
+                        array_replace_text = replace_text.split('\n');
+                        for (var a = 0; a < array_replace_text.length; a++) {
+                            var satu_data_replace_text = array_replace_text[a].split(',');
+                            update_stok_string = update_stok_string.replace(new RegExp(satu_data_replace_text[0]+' ', 'g'), satu_data_replace_text[1]+' ');
+                        }
+                    }
                 }
 
                 //array update stok
@@ -140,6 +166,14 @@
                 const filtered = arr.filter((item, index) => arr.indexOf(item) !== index);
                 return [...new Set(filtered)]
             }
+
+            $('#check-replace-text').change(function() {
+                if(this.checked) {
+                    $('#group-replace-text-update-stock').show();
+                }else{
+                    $('#group-replace-text-update-stock').hide();
+                }
+            });
 
             $('#paste-clipboard').on('click', async function(){
                 var text = await navigator.clipboard.readText();
