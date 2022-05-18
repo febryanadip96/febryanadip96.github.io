@@ -46,7 +46,7 @@
                     </div>
 
                     <div id="group-replace-text-update-stock" class='form-group' style="display: none;">
-                        <label>(format: product name, replace product name)</label>
+                        <label>(format: product name,replace product name)</label>
                         <textarea class='form-control' id='replace-text-update-stock' name='replace-text-update-stock' rows='10'
                                 cols='50'></textarea>
                     </div>
@@ -62,6 +62,9 @@
                 </div>
             </div>
         </div>
+        <footer>
+            <p style='color:#007BFF; text-align: end;'>Created by The Febryan Adi Prayitno @2022 😀</p>
+        </footer>
     </div>
     <script>
         $(function () {
@@ -97,7 +100,7 @@
                         array_replace_text = replace_text.split('\n');
                         for (var a = 0; a < array_replace_text.length; a++) {
                             var satu_data_replace_text = array_replace_text[a].split(',');
-                            update_stok_string = update_stok_string.replace(new RegExp(satu_data_replace_text[0]+' ', 'g'), satu_data_replace_text[1]+' ');
+                            update_stok_string = update_stok_string.replace(new RegExp(satu_data_replace_text[0].trim()+' ', 'g'), satu_data_replace_text[1].trim()+' ');
                         }
                     }
                 }
