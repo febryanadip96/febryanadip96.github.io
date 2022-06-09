@@ -41,13 +41,6 @@
                         </div>
                     </div>
 
-                    <div class='form-check'>
-                        <input type='checkbox' class='form-check-input' id='update-only' name='update-only'/>
-                        <label class='form-check-label' for='update-only'>Update Only</label>
-                    </div>
-
-                    <br/>
-
                     <div class='form-group'>
                         <label>Excel Stock Lazada (format csv)</label>
                         <input type='file' class='form-control' id='stock-excel' name='stock-excel' />
@@ -200,17 +193,12 @@
                 //array stok excel
                 var array_stok_excel = stok_excel_string.split('\n');
 
-                //set all stock 0
-                var update_only = $('#update-only').is(':checked');
-
-                if(!update_only){
-                    for (var k = 0; k < array_stok_excel.length; k++) {
-                        var data_array_stok_excel = array_stok_excel[k].split(',');
-                        var string_array_stok_excel = data_array_stok_excel.join("").trim();
-                        if(string_array_stok_excel.length == 0) break;
-                        data_array_stok_excel[kolom_stok] = 0;
-                        array_stok_excel[k] = data_array_stok_excel.join();
-                    }
+                for (var k = 0; k < array_stok_excel.length; k++) {
+                    var data_array_stok_excel = array_stok_excel[k].split(',');
+                    var string_array_stok_excel = data_array_stok_excel.join("").trim();
+                    if(string_array_stok_excel.length == 0) break;
+                    data_array_stok_excel[kolom_stok] = 0;
+                    array_stok_excel[k] = data_array_stok_excel.join();
                 }
 
                 var hasil = '';
@@ -245,17 +233,21 @@
                         if (ada == true) {
                             gagal = gagal.replace(array_update_stok[i] + '\n', '');//delete update stok from failed array
                             var data_array_stok_excel = array_stok_excel[j].split(',');
-                            if (!isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
-                                if(maximum_stok && parseInt(array_data_update_stok[array_data_update_stok.length - 1]) >= maximum_stok){
-                                    data_array_stok_excel[kolom_stok] = maximum_stok;
-                                }else{
-                                    data_array_stok_excel[kolom_stok] = array_data_update_stok[array_data_update_stok.length - 1];
-                                }
-                            } else {
-                                if(maximum_stok && default_stok >= maximum_stok){
-                                    data_array_stok_excel[kolom_stok] = maximum_stok;
-                                }else{
-                                    data_array_stok_excel[kolom_stok] = default_stok;
+                            if(data_array_stok_excel[kolom_stok] < 1){
+                                if (!isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
+                                    if(data_array_stok_excel[kolom_stok] <= array_data_update_stok[array_data_update_stok.length - 1]){
+                                        if(maximum_stok && parseInt(array_data_update_stok[array_data_update_stok.length - 1]) >= maximum_stok){
+                                            data_array_stok_excel[kolom_stok] = maximum_stok;
+                                        }else{
+                                            data_array_stok_excel[kolom_stok] = array_data_update_stok[array_data_update_stok.length - 1];
+                                        }
+                                    }
+                                } else {
+                                    if(maximum_stok && default_stok >= maximum_stok){
+                                        data_array_stok_excel[kolom_stok] = maximum_stok;
+                                    }else{
+                                        data_array_stok_excel[kolom_stok] = default_stok;
+                                    }
                                 }
                             }
                             array_stok_excel[j] = data_array_stok_excel.join();
