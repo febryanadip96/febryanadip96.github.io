@@ -236,7 +236,7 @@
                             gagal = gagal.replace(array_update_stok[i] + '\n', '');//delete update stok from failed array
                             var data_array_stok_excel = array_stok_excel[j].split(',');
                             if (!isNaN(array_data_update_stok[array_data_update_stok.length - 1])) {
-                                if(data_array_stok_excel[kolom_stok] <= array_data_update_stok[array_data_update_stok.length - 1]){
+                                if(data_array_stok_excel[kolom_stok] <= parseInt(array_data_update_stok[array_data_update_stok.length - 1])){
                                     if(maximum_stok && parseInt(array_data_update_stok[array_data_update_stok.length - 1]) >= maximum_stok){
                                         data_array_stok_excel[kolom_stok] = maximum_stok;
                                     }else{
