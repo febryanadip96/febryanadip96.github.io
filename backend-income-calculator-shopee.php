@@ -1,4 +1,6 @@
 <?php
+    error_reporting(E_ALL & ~E_NOTICE);
+
     $barisAwalPesananDiPenghasilan= $_POST["barisAwalPesananDiPenghasilan"];
     $kolomNoPesananDiPenghasilan= $_POST["kolomNoPesananDiPenghasilan"];
     $kolomPenghasilanDiPenghasilan= $_POST["kolomPenghasilanDiPenghasilan"];
@@ -45,7 +47,7 @@
 
             $total_modal = 0;
 
-            $pattern = '/'.$no_pesanan.'/';
+            $pattern = '/\b'.$no_pesanan.'\b/';
 
             for( $j = $barisAwalPesananDiPesanan; $j < count($array_pesanan); $j++){
 
@@ -70,15 +72,22 @@
                         $array_nama_barang_pricelist = explode(' ', strtolower(trim($data_pricelist[$kolomNamaBarangDiPricelist])));
 
                         for ( $k = 0; $k < count($array_nama_barang_pricelist); $k++) {
-                            $pattern2 = '/'.trim($array_nama_barang_pricelist[$k]).'/';
+                            $pattern2 = '/\b'.trim($array_nama_barang_pricelist[$k]).'\b/';
                             if (intval(preg_match($pattern2, $nama_barang_to_check)) == 0) {
                                 $ada = false;
                             }
 
                         }
 
+
                         if($ada){
-                            $harga_barang += intval($data_pesanan[$kolomJumlahBarangDiPesanan])*intval($data_pricelist[$kolomHargaModalDiPricelist]);
+                            try{
+                                $harga = intval($data_pricelist[$kolomHargaModalDiPricelist]);
+                            }catch (Exception $e){
+                                $harga = 0;
+                            }
+                        
+                            $harga_barang += intval($data_pesanan[$kolomJumlahBarangDiPesanan])*$harga;
                             
                             if(($harga_barang) == '' ) $harga_barang = 0;
 
