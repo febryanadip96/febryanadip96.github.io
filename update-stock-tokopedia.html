@@ -180,12 +180,12 @@
 
                 var kolom_nama_barang_dan_varian = 2;
                 var kolom_stok = 8;
-                var kolom_sku = 9;
+                var kolom_sku = 10;
 
                 var default_stok = parseInt($('input#default-stok').val()? $('input#default-stok').val() : 0);
                 var maximum_stok = parseInt($('input#maximum-stok').val()?$('input#maximum-stok').val() : 0);
 
-                var kolom_status = 10;
+                var kolom_status = 11;
                 var status_aktif = "Aktif";
                 var status_nonaktif = "Nonaktif";
 
@@ -240,7 +240,7 @@
                                     if(maximum_stok && parseInt(array_data_update_stok[array_data_update_stok.length - 1]) >= maximum_stok){
                                         data_array_stok_excel[kolom_stok] = maximum_stok;
                                     }else{
-                                        data_array_stok_excel[kolom_stok] = array_data_update_stok[array_data_update_stok.length - 1];
+                                        data_array_stok_excel[kolom_stok] = parseInt(array_data_update_stok[array_data_update_stok.length - 1]);
                                     }
                                 }
                             } else if(data_array_stok_excel[kolom_stok] < 1){
