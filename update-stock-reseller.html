@@ -90,7 +90,7 @@
             ];
 
             $('#submit-input').on('click', function(){
-                var update_stok_string = $('textarea#update-stock').val().replace(new RegExp(ranges.join('|'), 'g'), '').replace(/^\s*[\r\n]/gm, '');
+                var update_stok_string = $('textarea#update-stock').val().toUpperCase().replace(new RegExp(ranges.join('|'), 'g'), '').replace(/^\s*[\r\n]/gm, '');
 
                 if (update_stok_string == '') {
                     alert('Harap masukkan data update stok terbaru');
